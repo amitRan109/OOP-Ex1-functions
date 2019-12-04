@@ -11,29 +11,28 @@ public class ComplexFunction implements complex_function {
 	
 	public class Node {
 
+
 		private function f;
 		private Node right; 
 		private Node left;
 		private Operation op;
 		
-		/*public Node (function _f, Node _left, Node _right, Operation _op) {
-			this. f=_f;
-			this.right=_right; 
-			this.left=_left;
-			this.op=_op;
-		}*/
+		//***constructors***
 		public Node (function _f) {
 			this. f=_f;
-			this.right=null; 
 			this.left=null;
+			this.right=null; 
 			this.op=null;
 		}
+		
 		public Node (Operation _op,Node _left, Node _right) {
 			this. f=null;
-			this.right=_right; 
 			this.left=_left;
+			this.right=_right; 
 			this.op=_op;
 		}
+		
+		//***getters and setters***
 
 		public function getF() {
 			return f;
@@ -70,34 +69,34 @@ public class ComplexFunction implements complex_function {
 	
 	private Node head;
 	
-	public Node getHead () { return this.head; }
-	
+	//***constructors***
 	public ComplexFunction (function f1) { // build constructor
-		this.head= new Node (Operation.None,new Node (f1),null);
-		
+		setHead(new Node (Operation.None,new Node (f1),null));
 	}
+	
 	public ComplexFunction (String op, function f1, function f2) { // build constructor
-		op.toLowerCase();
-		
-		switch (op) {
+
+		Operation _op= makeOpFromString(op);
+		setHead(new Node (_op,new Node (f1),new Node (f1)));
+	}
+	
+	private Operation makeOpFromString (String s) {
+
+		s.toLowerCase();
+		switch (s) {
 		case "plus":
-			this.head= new Node (Operation.Plus,new Node (f1),new Node (f2));
-			break;
+
+			return Operation.Plus;
 		case "mul":
-			this.head= new Node (Operation.Times,new Node (f1),new Node (f2));
-			break;
+			return Operation.Times;
 		case "div":
-			this.head= new Node (Operation.Divid,new Node (f1),new Node (f2));
-			break;
+			return Operation.Divid;
 		case "max":
-			this.head= new Node (Operation.Max,new Node (f1),new Node (f2));
-			break;
+			return Operation.Max;
 		case "min":
-			this.head= new Node (Operation.Min,new Node (f1),new Node (f2));
-			break;
+			return Operation.Min;
 		case "comp":
-			this.head= new Node (Operation.Comp,new Node (f1),new Node (f2));
-			break;
+			return Operation.Comp;
 		default:
 			throw new RuntimeException("error");
 		}
@@ -127,7 +126,7 @@ public class ComplexFunction implements complex_function {
 			case None:
 				return fRecurs(n.getLeft(),x);
 			case Error:
-				return -1;// ??
+				return 0;
 			default:
 				throw new RuntimeException("error");
 			}
@@ -141,11 +140,11 @@ public class ComplexFunction implements complex_function {
 	private String tsR (Node n) {
 		if (n==null) return "";
 		if (n.getF()!= null) return n.getF().toString();
-		else  if (n.getRight()==null ) return getOp(n.getOp())+"("+tsR(n.left)+")";
-		else return getOp(n.getOp())+"("+tsR(n.left)+","+tsR(n.right)+")";
+		else  if (n.getRight()==null ) return  makeFromOp(n.getOp())+"("+tsR(n.getLeft())+")";
+		else return  makeFromOp(n.getOp())+"("+tsR(n.left)+","+tsR(n.getRight())+")";
 	}
 	
-	private String getOp (Operation op) {
+	private String makeFromOp (Operation op) {
 		switch (op) {
 		case Plus:
 			return "plus";
@@ -205,17 +204,23 @@ public class ComplexFunction implements complex_function {
 
 	@Override
 	public function copy() {
-		/*ComplexFunction ans = new ComplexFunction ();
-		copyR(ans,this.head);
-		return ans;*/
+
+		Node Nans= copyR(this.getHead());
+		ComplexFunction ans = new ComplexFunction (new Monom (""));
+		ans.setHead(Nans);
 		return null;
 	}
-
+	
+	private Node copyR(Node n) {
+		if (n.getOp()!=null) return new Node (n.getOp(),copyR(n.getLeft()),copyR(n.getRight()));
+		return new Node (n.getF());
+	}
+	
 	@Override
 	public void plus(function f1) {
 		ComplexFunction cf1= new ComplexFunction (f1);
 		Node temp = this.head;
-		this.head= new Node (Operation.Plus, temp, cf1.head);
+		this.head= new Node (Operation.Plus, temp, cf1.getHead());
 		
 	}
 
@@ -223,35 +228,41 @@ public class ComplexFunction implements complex_function {
 	public void mul(function f1) {
 		ComplexFunction cf1= new ComplexFunction (f1);
 		Node temp = this.head;
-		this.head= new Node (Operation.Times, temp, cf1.head);
+		this.head= new Node (Operation.Times, temp, cf1.getHead());
 	}
 
 	@Override
 	public void div(function f1) {
 		ComplexFunction cf1= new ComplexFunction (f1);
 		Node temp = this.head;
-		this.head= new Node (Operation.Divid, temp, cf1.head);
+		this.head= new Node (Operation.Divid, temp, cf1.getHead());
 	}
 
 	@Override
 	public void max(function f1) {
 		ComplexFunction cf1= new ComplexFunction (f1);
 		Node temp = this.head;
-		this.head= new Node (Operation.Max, temp, cf1.head);
+		this.head= new Node (Operation.Max, temp, cf1.getHead());
 	}
 
 	@Override
 	public void min(function f1) {
 		ComplexFunction cf1= new ComplexFunction (f1);
 		Node temp = this.head;
-		this.head= new Node (Operation.Min, temp, cf1.head);	}
+		this.head= new Node (Operation.Min, temp, cf1.getHead());	}
 
 	@Override
 	public void comp(function f1) {
 		ComplexFunction cf1= new ComplexFunction (f1);
 		Node temp = this.head;
-		this.head= new Node (Operation.Comp, temp, cf1.head);
+		this.head= new Node (Operation.Comp, temp, cf1.getHead());
 	}
+	
+	public boolean equals(Object obj) {
+		return false;
+	}
+	
+	//***getters**
 
 	@Override
 	public function left() {
@@ -270,5 +281,10 @@ public class ComplexFunction implements complex_function {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public Node getHead () { return this.head; }
+	
+	//***SETTERS**
+	public void setHead (Node _head) { this.head=_head; }
 
 }
