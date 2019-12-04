@@ -83,6 +83,7 @@ public class ComplexFunction implements complex_function {
 		s.toLowerCase();
 		switch (s) {
 		case "plus":
+
 			return Operation.Plus;
 		case "mul":
 			return Operation.Times;
