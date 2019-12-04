@@ -11,6 +11,7 @@ public class ComplexFunction implements complex_function {
 	
 	public class Node {
 
+
 		private function f;
 		private Node right; 
 		private Node left;
@@ -74,11 +75,13 @@ public class ComplexFunction implements complex_function {
 	}
 	
 	public ComplexFunction (String op, function f1, function f2) { // build constructor
+
 		Operation _op= makeOpFromString(op);
-		setHead(new Node (_op,new Node (f1),null));
+		setHead(new Node (_op,new Node (f1),new Node (f1)));
 	}
 	
 	private Operation makeOpFromString (String s) {
+
 		s.toLowerCase();
 		switch (s) {
 		case "plus":
@@ -200,6 +203,7 @@ public class ComplexFunction implements complex_function {
 
 	@Override
 	public function copy() {
+
 		Node Nans= copyR(this.getHead());
 		ComplexFunction ans = new ComplexFunction (new Monom (""));
 		ans.setHead(Nans);
