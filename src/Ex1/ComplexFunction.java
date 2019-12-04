@@ -75,13 +75,11 @@ public class ComplexFunction implements complex_function {
 	}
 	
 	public ComplexFunction (String op, function f1, function f2) { // build constructor
-
 		Operation _op= makeOpFromString(op);
 		setHead(new Node (_op,new Node (f1),new Node (f1)));
 	}
 	
 	private Operation makeOpFromString (String s) {
-
 		s.toLowerCase();
 		switch (s) {
 		case "plus":
@@ -106,6 +104,7 @@ public class ComplexFunction implements complex_function {
 		// TODO Auto-generated method stub
 		return fRecurs(this.head,x);
 	}
+	
 	private double fRecurs (Node n, double x) {
 		if (n.f != null) return n.getF().f(x);
 		else {
