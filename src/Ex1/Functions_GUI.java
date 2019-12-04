@@ -120,18 +120,18 @@ public class Functions_GUI implements functions{
 	StdDraw.show();
 	Random randomGenerator = new Random();
 	StdDraw.setPenRadius(0.1);
-	StdDraw.setPenColor(Color.PINK);
 	for(int j=0;j<list.size();j++) {
 		int red = randomGenerator.nextInt(256);
 		int green = randomGenerator.nextInt(256);
 		int blue = randomGenerator.nextInt(256);
 		Color randomColour = new Color(red,green,blue);
 		StdDraw.setPenColor(randomColour);
-		for(double k=rx.get_min();k<rx.get_max();k+=Math.abs(rx.get_max()-rx.get_min())/resolution) {
+		double r=Math.abs(rx.get_max()-rx.get_min())/resolution;
+		for(double k=rx.get_min();k<rx.get_max();k+=r) {
 		StdDraw.setPenRadius(0.01);
 		double p = this.list.get(j).f(k);
 		//StdDraw.point(k, p);
-		StdDraw.line(k, p, k+Math.abs(rx.get_max()-rx.get_min())/resolution, this.list.get(j).f(k+Math.abs(rx.get_max()-rx.get_min())/resolution));
+		StdDraw.line(k, p, k+r, this.list.get(j).f(k+r));
 		}}
 	}
 

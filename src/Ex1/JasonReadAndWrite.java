@@ -21,7 +21,7 @@ public class JasonReadAndWrite {
 	public void addToFile() {
 		try (JsonWriter writer = new JsonWriter(new FileWriter(""+this.file1+".json"))) {
             writer.beginObject();                   // {        
-            writer.name("functions");                // "messages" : 
+            writer.name("functions");                // "function" : 
             writer.beginArray();                    // [
             Iterator<function> it=this.arr.iterator();
             while(it.hasNext()) {
