@@ -101,6 +101,7 @@ public class Monom implements function{
 			
 			if (this._coefficient==0) this._power=0; // the value is 0
 			
+			
 		}
 		catch(Exception e) {
 			throw new RuntimeException("error");		

@@ -37,7 +37,7 @@ public class Polynom implements Polynom_able{
 				j++;
 			}
 			while (j<s.length()) {
-				if (s.charAt(j)=='+' || s.charAt(j)=='-' ) {
+				if (s.charAt(j)=='+' || s.charAt(j)=='-') {
 					Monom m=new Monom (s.substring(i, j));
 					addToList (m);
 					i=j;

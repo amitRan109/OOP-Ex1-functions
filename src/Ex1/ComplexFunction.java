@@ -1,6 +1,6 @@
 package Ex1;
 
-//import java.util.Stack;
+import java.util.Stack;
 
 public class ComplexFunction implements complex_function {
 
@@ -76,7 +76,7 @@ public class ComplexFunction implements complex_function {
 	
 	public ComplexFunction (String op, function f1, function f2) { // build constructor
 		Operation _op= makeOpFromString(op);
-		setHead(new Node (_op,new Node (f1),new Node (f1)));
+		setHead(new Node (_op,new Node (f1),new Node (f2)));
 	}
 	
 	private Operation makeOpFromString (String s) {
@@ -139,7 +139,7 @@ public class ComplexFunction implements complex_function {
 	private String tsR (Node n) {
 		if (n==null) return "";
 		if (n.getF()!= null) return n.getF().toString();
-		else  if (n.getRight()==null ) return  makeFromOp(n.getOp())+"("+tsR(n.getLeft())+")";
+		else  if (n.getRight()==null ) return  makeFromOp(n.getOp())+tsR(n.getLeft());
 		else return  makeFromOp(n.getOp())+"("+tsR(n.left)+","+tsR(n.getRight())+")";
 	}
 	
@@ -169,41 +169,51 @@ public class ComplexFunction implements complex_function {
 	
 	@Override
 	public function initFromString(String s) {
-		ComplexFunction ans=new ComplexFunction (new Polynom ("0"));
-		
-		/*Stack <String> st= new Stack <String> ();
-		int i=0; int j=0;
-		if (s.charAt(j))
-		while (j<s.length()) {
-			if ()
-		}*/
-		
-		
-		/*int i=0; int j=0; 
-		if (s.charAt(j)=='-' || s.charAt(j)=='+') {
-			j++;
+		return initR (s);
+	}
+	private function initR (String s) {
+		if (!Character.isLetter(s.charAt(0))) {
+			//System.out.println("s: "+s);
+			return new Polynom (s);
 		}
-		while (j<s.length()) {
-			if (s.charAt(j)=='+' || s.charAt(j)=='-' || s.charAt(j)=='*' || s.charAt(j)=='/') {
-				Monom m=new Monom (s.substring(i, j));
-				addToList (m);
-				i=j;
-			}
-			j++; 
+		//System.out.println("s: "+s);
+		String op="";
+		int i=0;
+		while (Character.isLetter(s.charAt(i))) { // make string from the op
+			op+=s.charAt(i);
+			i++;
 		}
-		if (i!=j) {
-			Monom m=new Monom (s.substring(i, j));
-			addToList (m);
-		}*/	
-
-
-
-		return (function) ans;
+		String left="";
+		String right="";
+		Stack <String> st= new Stack <String> ();
+		i++; // start from the char after "("
+		int j=i;
+		//find left
+		while (s.charAt(i)!=',' || s.charAt(i)==',' && !st.isEmpty()) { //or its not ',' or its ',' but not the last
+			if (s.charAt(i)=='(') st.add("(");
+			if (s.charAt(i)==')') st.pop();
+			i++;
+		}
+		left=s.substring(j, i);
+		i++;
+		j=i;
+		System.out.println("i: "+i+"j: "+j);
+		//find right
+		while (s.charAt(i)!=')'||s.charAt(i)==')' && !st.isEmpty()) {
+			if (s.charAt(i)=='(') st.add("(");
+			if (s.charAt(i)==')') st.pop();
+			i++;
+		}
+		right=s.substring(j, i);
+		System.out.println("right: "+right);
+		return new ComplexFunction (op,initR(left),initR(right));
+		
 	}
 
 	@Override
 	public function copy() {
-
+//	function ansF = initFromString (toString());
+//	ComplexFunction ans= new ComplexFunction (ansF);
 		Node Nans= copyR(this.getHead());
 		ComplexFunction ans = new ComplexFunction (new Monom (""));
 		ans.setHead(Nans);
