@@ -32,7 +32,7 @@ public class ComplexFunction implements complex_function {
 			this. f=null;
 			this.right=_right; 
 			this.left=_left;
-			this.op=null;
+			this.op=_op;
 		}
 
 		public function getF() {
@@ -81,22 +81,22 @@ public class ComplexFunction implements complex_function {
 		
 		switch (op) {
 		case "plus":
-			this.head= new Node (Operation.Plus,new Node (f1),null);
+			this.head= new Node (Operation.Plus,new Node (f1),new Node (f2));
 			break;
 		case "mul":
-			this.head= new Node (Operation.Times,new Node (f1),null);
+			this.head= new Node (Operation.Times,new Node (f1),new Node (f2));
 			break;
 		case "div":
-			this.head= new Node (Operation.Divid,new Node (f1),null);
+			this.head= new Node (Operation.Divid,new Node (f1),new Node (f2));
 			break;
 		case "max":
-			this.head= new Node (Operation.Max,new Node (f1),null);
+			this.head= new Node (Operation.Max,new Node (f1),new Node (f2));
 			break;
 		case "min":
-			this.head= new Node (Operation.Min,new Node (f1),null);
+			this.head= new Node (Operation.Min,new Node (f1),new Node (f2));
 			break;
 		case "comp":
-			this.head= new Node (Operation.Comp,new Node (f1),null);
+			this.head= new Node (Operation.Comp,new Node (f1),new Node (f2));
 			break;
 		default:
 			throw new RuntimeException("error");

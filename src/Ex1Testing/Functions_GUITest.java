@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import Ex1.complex_function;
+import Ex1.ComplexFunction;
 import Ex1.Functions_GUI;
 import Ex1.Monom;
 import Ex1.Polynom;
