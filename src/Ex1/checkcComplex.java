@@ -48,12 +48,12 @@ public class checkcComplex {
 		ComplexFunction cf = new ComplexFunction("plus", p1,p2);
 		//System.out.println("cf: "+cf);
 		ComplexFunction cf4 = new ComplexFunction("div", new Polynom("x+1"),cf3);
-		//System.out.println("cf4: "+cf4);
+		System.out.println("cf4: "+cf4.toString());
 		cf4.plus(new Monom("2"));
 		cf.div(p1);
 		function cf5 = cf4.initFromString(s1);
 		function cf6 = cf4.initFromString(s2);
-		System.out.println("cf5: "+ cf5);
+		System.out.println("cf5: "+ cf4);
 		System.out.println("cf6: "+ cf6);
 		
 //		function cf2= cf.copy();
