@@ -32,7 +32,8 @@ public class Polynom implements Polynom_able{
 	 * @param s: is a string represents a Polynom
 	 */
 	public Polynom(String s) {
-			int i=0; int j=0; 
+			s=s.replace(" ", "");
+		int i=0; int j=0; 
 			if (s.charAt(j)=='-' || s.charAt(j)=='+') {
 				j++;
 			}

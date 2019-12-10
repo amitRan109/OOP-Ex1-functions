@@ -1,18 +1,26 @@
 package Ex1;
 
 import java.awt.Color;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Random;
 
+import com.google.gson.Gson;
+
 public class Functions_GUI implements functions{
 		ArrayList<function> list;
 		
 	public Functions_GUI() {
-		this.list = new ArrayList<function>();
-	}
+		this.list = new ArrayList<function>();}
+		public function get(int index) {
+			return this.list.get(index);
+			
+		}
+	
 	@Override
 	public boolean add(function arg0) {
 		return list.add(arg0);
@@ -80,7 +88,6 @@ public class Functions_GUI implements functions{
 
 	@Override
 	public void initFromFile(String file) throws IOException {
-		this.list.clear();
 		JasonReadAndWrite j=new JasonReadAndWrite(file,this.list);
 		this.list = j.fromFile();
 
@@ -139,7 +146,23 @@ public class Functions_GUI implements functions{
 	
 	@Override
 	public void drawFunctions(String json_file) {
-		
+		Gson gson = new Gson();
+	
+		try 
+		{
+			//Option 2: from JSON file to Object
+			FileReader reader = new FileReader(json_file);
+			Parameters p = gson.fromJson(reader,Parameters.class);
+			Range rx = new Range(p.Range_X[0], p.Range_X[1]);
+			Range ry = new Range(p.Range_Y[0], p.Range_Y[1]);
+			drawFunctions(p.Width, p.Height, rx, ry,p.Resolution);
+		} 
+		catch (FileNotFoundException e) {
+			Range rx = new Range(-10, 10);
+			Range ry = new Range(-10, 10);
+			drawFunctions(1000,600,rx, ry,800);
+			e.printStackTrace();
+		}
 		
 	}
 	

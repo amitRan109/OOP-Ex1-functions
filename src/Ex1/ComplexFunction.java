@@ -11,7 +11,7 @@ public class ComplexFunction implements complex_function {
 	
 	public class Node {
 
-
+		//***params***
 		private function f;
 		private Node right; 
 		private Node left;
@@ -66,10 +66,10 @@ public class ComplexFunction implements complex_function {
 			this.op = op;
 		}
 	}
-	
+	//***params***
 	private Node head;
 	
-	//***constructors***
+	//**constructors**
 	public ComplexFunction (function f1) { // build constructor
 		setHead(new Node (Operation.None,new Node (f1),null));
 	}
@@ -99,7 +99,7 @@ public class ComplexFunction implements complex_function {
 			throw new RuntimeException("error");
 		}
 	}
-	
+	//***functions***
 	@Override
 	public double f(double x) {
 		// TODO Auto-generated method stub
@@ -140,7 +140,7 @@ public class ComplexFunction implements complex_function {
 		if (n==null) return "";
 		if (n.getF()!= null) return n.getF().toString();
 		else  if (n.getRight()==null ) return  makeFromOp(n.getOp())+tsR(n.getLeft());
-		else return  makeFromOp(n.getOp())+"("+tsR(n.left)+","+tsR(n.getRight())+")";
+		else return  makeFromOp(n.getOp())+"("+tsR(n.getLeft())+","+tsR(n.getRight())+")";
 	}
 	
 	private String makeFromOp (Operation op) {
@@ -169,60 +169,56 @@ public class ComplexFunction implements complex_function {
 	
 	@Override
 	public function initFromString(String s) {
+		s=s.replace(" ", "");
 		return initR (s);
+	
 	}
 	private function initR (String s) {
-		if (!Character.isLetter(s.charAt(0))) {
-			//System.out.println("s: "+s);
-			return new Polynom (s);
-		}
-		//System.out.println("s: "+s);
-		String op="";
-		int i=0;
-		while (Character.isLetter(s.charAt(i))) { // make string from the op
-			op+=s.charAt(i);
+		try {
+			if (s.charAt(0)=='+' || s.charAt(0)=='-' || s.charAt(0)=='x' || Character.isDigit(s.charAt(0))) {
+				return new Polynom (s);
+				
+			}
+			String op="";
+			int i=0;
+			while (Character.isLetter(s.charAt(i))) { // make string from the op
+				op+=s.charAt(i);
+				i++;
+			}
+			String left="";
+			String right="";
+			Stack <String> st= new Stack <String> ();
+			i++; // start from the char after "("
+			int j=i;
+			//find left
+			while (s.charAt(i)!=',' || s.charAt(i)==',' && !st.isEmpty()) { //or its not ',' or its ',' but not the last
+				if (s.charAt(i)=='(') st.add("(");
+				if (s.charAt(i)==')') st.pop();
+				i++;
+			}
+			left=s.substring(j, i);
 			i++;
+			j=i;
+			//find right
+			while (s.charAt(i)!=')'||s.charAt(i)==')' && !st.isEmpty()) {
+				if (s.charAt(i)=='(') st.add("(");
+				if (s.charAt(i)==')') st.pop();
+				i++;
+			}
+			right=s.substring(j, i);
+			return new ComplexFunction (op,initR(left),initR(right));
 		}
-		String left="";
-		String right="";
-		Stack <String> st= new Stack <String> ();
-		i++; // start from the char after "("
-		int j=i;
-		//find left
-		while (s.charAt(i)!=',' || s.charAt(i)==',' && !st.isEmpty()) { //or its not ',' or its ',' but not the last
-			if (s.charAt(i)=='(') st.add("(");
-			if (s.charAt(i)==')') st.pop();
-			i++;
+		catch (Exception e) {
+			throw new RuntimeException ("error");
 		}
-		left=s.substring(j, i);
-		i++;
-		j=i;
-		System.out.println("i: "+i+"j: "+j);
-		//find right
-		while (s.charAt(i)!=')'||s.charAt(i)==')' && !st.isEmpty()) {
-			if (s.charAt(i)=='(') st.add("(");
-			if (s.charAt(i)==')') st.pop();
-			i++;
-		}
-		right=s.substring(j, i);
-		System.out.println("right: "+right);
-		return new ComplexFunction (op,initR(left),initR(right));
-		
+
 	}
 
 	@Override
 	public function copy() {
-//	function ansF = initFromString (toString());
-//	ComplexFunction ans= new ComplexFunction (ansF);
-		Node Nans= copyR(this.getHead());
-		ComplexFunction ans = new ComplexFunction (new Monom (""));
-		ans.setHead(Nans);
-		return null;
-	}
-	
-	private Node copyR(Node n) {
-		if (n.getOp()!=null) return new Node (n.getOp(),copyR(n.getLeft()),copyR(n.getRight()));
-		return new Node (n.getF());
+	function ansF = initFromString (toString());
+	ComplexFunction ans= new ComplexFunction (ansF);
+		return ans;
 	}
 	
 	@Override
@@ -268,32 +264,37 @@ public class ComplexFunction implements complex_function {
 	}
 	
 	public boolean equals(Object obj) {
-		return false;
+		function second=(function) obj;
+		boolean check=true;
+		for(double i=-1000;i<=1000;i++) {
+			if(this.f(i)!=second.f(i)) {
+				check=false;
+			}
+		}
+		return check;	
 	}
 	
-	//***getters**
-
+	//**getters**
 	@Override
 	public function left() {
-		// TODO Auto-generated method stub
-		return null;
+		ComplexFunction ans=new ComplexFunction (new Monom("0"));
+		ans.setHead(this.head.getLeft());
+		return ans;
 	}
 
 	@Override
 	public function right() {
-		// TODO Auto-generated method stub
-		return null;
+		ComplexFunction ans=new ComplexFunction (new Monom("0"));
+		ans.setHead(this.head.getRight());
+		return ans;	
 	}
 
 	@Override
-	public Operation getOp() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public Operation getOp() { return this.getHead().op; }
 	
 	public Node getHead () { return this.head; }
 	
-	//***SETTERS**
+	//**setters**
 	public void setHead (Node _head) { this.head=_head; }
 
 }

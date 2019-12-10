@@ -1,5 +1,7 @@
 package Ex1Testing;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.BeforeEach;
 
 import org.junit.jupiter.api.Test;
@@ -25,13 +27,16 @@ import Ex1.function;
  *
  */
 class Functions_GUITest {
-	public static void main(String[] a) {
+	public static void main(String[] a) throws IOException {
 		Functions_GUI data = FunctionsFactory();
-		int w=1000, h=600, res=200;
+		data.saveToFile("fnction.txt");
+		data.initFromFile("fnction.txt");
+		data.drawFunctions("GUI_params .txt");
+		/*int w=1000, h=600, res=200;
 		Range rx = new Range(-10,10);
 		Range ry = new Range(-5,15);
 		data.drawFunctions(w,h,rx,ry,res);
-	}
+	*/}
 	private Functions_GUI _data=null;
 //	@BeforeAll
 //	static void setUpBeforeClass() throws Exception {
@@ -64,10 +69,10 @@ class Functions_GUITest {
 	}
 
 	@Test
-	void testDrawFunctionsIntIntRangeRangeInt() {
-		_data.drawFunctions();
+	/*void testDrawFunctionsIntIntRangeRangeInt() {
+		//_data.drawFunctions();
 		//fail("Not yet implemented");
-	}
+	}*/
 	public static Functions_GUI FunctionsFactory() {
 		Functions_GUI ans = new Functions_GUI();
 		String s1 = "3.1 +2.4x^2 -x^4";

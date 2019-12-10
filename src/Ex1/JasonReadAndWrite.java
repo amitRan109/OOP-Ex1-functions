@@ -1,9 +1,14 @@
 package Ex1;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -19,50 +24,35 @@ public class JasonReadAndWrite {
 		this.arr=list;
 	}
 	public void addToFile() {
-		try (JsonWriter writer = new JsonWriter(new FileWriter(""+this.file1+".json"))) {
-            writer.beginObject();                   // {        
-            writer.name("functions");                // "function" : 
-            writer.beginArray();                    // [
-            Iterator<function> it=this.arr.iterator();
-            while(it.hasNext()) {
-            	writer.value(it.next().toString()); 
-            }
-            writer.endArray();                      // ]
-            writer.endObject();                     // 
+		try {
+		 
+			File fout =new File(this.file1);
+			FileOutputStream fos=new FileOutputStream(fout);
+			BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(fos));
+			for(int i=0;i<arr.size();i++) {
+				bw.write(this.arr.get(i).toString());
+				bw.newLine();
+			}
+			bw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 		
 	}
 	public ArrayList<function> fromFile() {
-		 try (JsonReader reader = new JsonReader(new FileReader(""+this.file1+".json"))) {
-			 	function f = new ComplexFunction(new Monom("0"));
-	            reader.beginObject();
-
-	            while (reader.hasNext()) {
-
-	                String name = reader.nextName();
-
-	                if (name.equals("functions")) {
-
-	                    // read array
-	                    reader.beginArray();
-
-	                    while (reader.hasNext()) {
-	                        this.arr.add(f.initFromString(reader.nextString()));
-	                    }
-
-	                    reader.endArray();
-
-	                } else {
-	                    reader.skipValue(); //avoid some unhandle events
-	                }
-	            }
-
-	            reader.endObject();
-
-	        } catch (FileNotFoundException e) {
-	            e.printStackTrace();
+		 BufferedReader reader;
+		try{
+			 	reader=new  BufferedReader(new FileReader(this.file1));
+			 	function f = new ComplexFunction(new Monom("6"));
+			 	String line=reader.readLine();
+	            while (line!=null) {
+	                //System.out.println(line);
+	            	this.arr.add(f.initFromString(line));
+	                line=reader.readLine();             
+                    }
+	                    reader.close();;
+	            
+	           
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }
