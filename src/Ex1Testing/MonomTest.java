@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import Ex1.Monom;
 
-class MonomJUnit {
+class MonomTes {
 	Monom m;
 	@Test
 	void testF() 
@@ -206,8 +206,3 @@ class MonomJUnit {
 		
 		
 	}
-
-
-
-
-

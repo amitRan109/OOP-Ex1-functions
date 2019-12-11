@@ -79,6 +79,9 @@ public class ComplexFunction implements complex_function {
 		setHead(new Node (_op,new Node (f1),new Node (f2)));
 	}
 	
+	public ComplexFunction (Operation op, function f1, function f2) { // build constructor
+		setHead(new Node (op,new Node (f1),new Node (f2)));
+	}
 	private Operation makeOpFromString (String s) {
 		s.toLowerCase();
 		switch (s) {
@@ -274,7 +277,7 @@ public class ComplexFunction implements complex_function {
 		return check;	
 	}
 	
-	//**getters**
+	//***getters***
 	@Override
 	public function left() {
 		ComplexFunction ans=new ComplexFunction (new Monom("0"));
@@ -294,7 +297,7 @@ public class ComplexFunction implements complex_function {
 	
 	public Node getHead () { return this.head; }
 	
-	//**setters**
+	//***setters***
 	public void setHead (Node _head) { this.head=_head; }
 
 }

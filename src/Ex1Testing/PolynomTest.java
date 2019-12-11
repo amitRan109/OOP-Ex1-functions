@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import Ex1.Monom;
 import Ex1.Polynom;
-class PolynomJUnit {
+class PolynomTest {
 
 	@Test
 	void testF() {
