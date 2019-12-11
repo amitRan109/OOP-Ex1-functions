@@ -1,16 +1,14 @@
 # ob-Ex1
-הפרויקט מאפשר לעשות פעולות חשבוניות על פונקציות מתמטיות מסוג פולינום, מונום ופנקציה מורכבת.
-בנוסף,הפרויקט מאפשר לעשות פעולות כמו כפל, חיבור, הרכבת פונקציות וציור גרף של פונקציות במערכת צירים.
-## getting started
-?
-### Prerequisites
-כדי להשתמש בפרויקט צריך להיות על המחשב תוכנה שתומכת בגאבה
-## Running the tests
+Welcome to our project:)
 
-Explain how to run the automated tests for this system?????
-ולהסביר מה הטסטים בודקים ולמה
-## Built With
+The project allows you to do arithmetic operations on mathematical functions such as:Polynom,Monom and complex function. In addition the project allows you to do arithmetic operations such as:plus, minus, multipy, divide function composition and And drawing a graph of functions in an axis system.
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+The project represent a 4 main classes :
+
+Monom: This class create Monom form of "ax^b" and performs arithmetic operations on it.
+
+Polynom: This class create list of Monoms and performs arithmetic operations on it. 
+
+ComplexFunction: This class create function that contains two function(Monom/Polynom/complex function) and arithmetic operations on it.
+
+Function_GUI: This class contains collection of function,this class can write a file and read from it and also can draw a graph of the function collection.
